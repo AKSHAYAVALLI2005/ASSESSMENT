@@ -1,0 +1,44 @@
+ASSESSMENT
+
+LINUX
+Module2
+
+#Question1
+
+find . -type f -size +1M > output.txt
+	Finds all files larger than 1 MB in the current directory and its subdirectories.
+	Saves the list of these files into output.txt.
+
+#Question2
+
+sed 's/localhost/127.0.0.1/g' config.txt > updated_config.txt
+
+	Replaces all occurrences of localhost with 127.0.0.1 in config.txt.
+	Saves the updated content into updated_config.txt.
+
+#Question3
+
+grep "ERROR" log.txt | grep -v "DEBUG" > filtered_log.txt
+
+	Searches for lines containing "ERROR" in log.txt.
+	Excludes lines that also contain "DEBUG".
+	Saves the filtered lines to filtered_log.txt.
+
+#Question4
+
+ps aux --sort=-%mem | awk 'NR==2 {print $1}' | xargs kill -9
+
+	Lists all running processes with details like user, PID, CPU and memory usage, and command.
+	awk 'NR==2 {print $1}'selects the PID of the process using the most memory.
+	xargs passes this PID as an argument to kill -9.
+	kill -9 forcefully terminates that process.
+	xargs is used to take the output of one command and use it as input for another.
+
+#Question5
+
+awk 'NR>1 {print $2}' gateway
+
+
+	Reads the file gateway.
+	Skips the first line.
+	Prints the second column of each remaining line.
