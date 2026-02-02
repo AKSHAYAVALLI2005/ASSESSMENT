@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Quetion 1
+src="$1"
+dest="$2"
+ext="$3"
+
+if [ $# -ne 3 ]; then
+    echo "Usage: ./backup_manager.sh <source_dir> <backup_dir> <extension>"
+    exit 1
+fi
+
+# Quetion 2
+files=("$src"/*."$ext")
+
+
+# Quetion 3
+export BACKUP_COUNT=0
+total_size=0
+
+
+# Question 4 
+for file in "${files[@]}"
+do
+    size=$(stat -c%s "$file")
+    name=$(basename "$file")
+
+    echo "$name  $size bytes"
+
+    total_size=$((total_size + size))
+
+# Question 5
+if [ ! -d "$dest" ]; then
+    mkdir -p "$dest"
+fi
+
+if [ ! -e "${files[0]}" ]; then
+    echo "No .$ext files found in source directory"
+    exit 1
+fi
+
+if [ ! -f "$dest/$name" ] || [ "$file" -nt "$dest/$name" ]; then
+        cp "$file" "$dest/"
+        BACKUP_COUNT=$((BACKUP_COUNT + 1))
+fi
+done
+
+# Quetion 6
+report="$dest/backup_report.log"
+
+echo "Backup Summary Report" > "$report"
+echo "Total files processed : ${#files[@]}" >> "$report"
+echo "Files backed up : $BACKUP_COUNT" >> "$report"
+echo "Total size : $total_size bytes" >> "$report"
+echo "Backup location : $dest" >> "$report"
+
+echo "Backup completed!"
